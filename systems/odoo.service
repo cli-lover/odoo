@@ -1,0 +1,14 @@
+[Unit]
+Description=Odoo
+Documentation=https://www.odoo.com/
+After=network.target
+
+[Service]
+Type=simple
+User=odoo
+ExecStart=/opt/odoo/odoo/odoo-bin -c /etc/odoo.conf
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
