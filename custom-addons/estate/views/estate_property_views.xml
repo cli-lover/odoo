@@ -5,10 +5,7 @@
         <field name="res_model">estate.property</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                <field name="bedrooms"/>
-                <field name="living_area"/>
-                <field name="facades"/> </p>
+            <p class="o_view_nocontent_smiling_face"></p>
         </field>
     </record>
     <record id="view_estate_property_tree" model="ir.ui.view">
@@ -31,36 +28,70 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Property Form">
+                <header>
+                    <button type="action" name="%(estate_property_action)d" string="Back" 
+                        class="btn-primary" />
+                    <button name="action_sold" type="object" string="SOLD" 
+                        invisible="state != 'offer_received'" />
+                    <button name="action_cancel" type="object" string="CANCEL"
+                        invisible="state != 'offer_received'" />
+                    <field name="state" widget="statusbar" 
+                        statusbar_visible="new,offer_received,offer_accepted,sold,canceled"/>
+                </header>
                 <sheet>
                     <h1><field name="name"/></h1>
-                    <field name="tag_ids" widget="many2many_tags"/>
+                    <field name="tag_ids" widget="many2many_tags" 
+                        options="{'color_field': 'color'}" />
                     <group>
                         <group>
-                            <field name="property_type_id"/>
+                            <field name="property_type_id" widget="many2one" 
+                                options="{'no_create': True, 'no_open': True}" />
+                            <field name="state" />
                             <field string="Postcode" name="postcode"/>
                             <field string="Available From" name="date_availability"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
+                            <field name="best_price" />
                             <field name="selling_price"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
                             <group>
-                                <group>
-                                    <field name="description"/>
-                                    <field name="bedrooms"/>
-                                    <field name="living_area"/>
-                                    <field name="facades"/>
-                                </group>
-                                <group>
-                                    <field name="garage"/>
-                                    <field name="garden"/>
-                                    <field name="garden_area"/>
-                                    <field name="garden_orientation"/>
-                                </group>
+                                <field name="description"/>
+                                <field name="bedrooms"/>
+                                <field name="living_area"/>
+                                <field name="facades"/>
+                                <field name="garage"/>
+                                <field name="garden" widget="boolean" />
+                                <field name="garden_area" invisible="not garden"/>
+                                <field name="garden_orientation" invisible="not garden"/>
+                                <field name="total_area" />
                             </group>
+                        </page>
+                        <page string="Offers">
+                            <field name="offer_ids" widget="one2many_list" mode="tree,form"
+                                readonly="state in ['offer_accepted', 'sold', 'canceled']">
+                                <tree>
+                                    <field name="price"/>
+                                    <field name="partner_id"/>
+                                    <field name="validity" />
+                                    <field name="date_deadline" />
+                                    <button name="action_accept" type="object" icon="fa-check"/>
+                                    <button name="action_refuse" type="object" icon="fa-check"/>
+                                    <field name="status"/>
+                                </tree>
+                                <form >
+                                    <group>
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="validity" />
+                                        <field name="date_deadline" />
+                                        <field name="status"/>
+                                    </group>
+                                </form>
+                            </field>
                         </page>
                         <page string="Other Info">
                             <group>
@@ -73,6 +104,7 @@
             </form>
         </field>
     </record>
+
     <record id="view_estate_property_search" model="ir.ui.view">
         <field name="name">estate.property.search</field>
         <field name="model">estate.property</field>
@@ -94,4 +126,5 @@
             </search>
         </field>
     </record>
+    
 </odoo>
