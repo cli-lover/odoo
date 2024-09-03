@@ -1,13 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Estate Properties</field>
         <field name="res_model">estate.property</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face"></p>
         </field>
     </record>
+
+    <!-- Kanban View for Estate Properties -->
+    <record id="view_estate_kanban" model="ir.ui.view">
+        <field name="name">estate.property.kanban</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <h2><field name="name"/></h2>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <strong>Best Price:</strong> <field name="best_price"/>           
+                            <div>
+                                <strong>Selling Price:</strong><field name="selling_price" />
+                            </div>
+                            <strong>Expected Price:</strong> <field name="expected_price"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+                    
+        </field>
+    </record>
+
     <record id="view_estate_property_tree" model="ir.ui.view">
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>

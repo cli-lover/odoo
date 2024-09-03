@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="todolist.list">
+        <div style="width:50vh; margin:auto;">
+            <!-- <button class="btn btn-dark" t-on-click="addtodo">SHOW ME ROCK</button> -->
+            <button class="btn btn-dark" t-on-click="poptodo">SHOW ME PAPER</button>
+            <input t-ref="inputRef" type="text" class="form-control" placeholder="Add a todo" t-on-keydown="addtodo"/>
+            <div class="card">
+                <t t-foreach="todos" t-as="todo" t-key="todo.id">
+                    <Todoitem todo="todo" removeState.bind="removeTodo" 
+                        toggleState.bind="toggleTodo" />
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

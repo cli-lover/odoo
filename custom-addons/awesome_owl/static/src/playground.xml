@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="awesome_owl.playground">
+        <div class="p-3">
+            Counter Game
+            <Counter onChange.bind="updateSum" />
+            <Counter onChange.bind="updateSum" />
+            <div>
+                <p>Counter: <t t-esc="sum.value" /></p>
+            </div>
+        </div>
+
+
+        <div class="p-3">
+            Card Game
+            <button t-on-click="addCard" class="btn btn-primary">Add Card</button>
+            <button t-on-click="removeCard" class="btn btn-danger ml-2">Remove Card</button>
+        </div>
+        <div>
+            <t t-foreach="cards" t-as="card" t-key="card.id">
+                <Card title="card.title">
+                    <t t-set-slot="content">
+                        <Counter onChange.bind="updateSum" />
+                    </t>
+                </Card>
+            </t>
+        </div>
+
+        
+        <div class="p-3">
+            Todo List Game
+            <TodoList />
+        </div>
+    </t>
+</templates>
